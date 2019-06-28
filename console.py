@@ -4,7 +4,8 @@ import cmd
 
 
 class HBNBCommand(cmd.Cmd):
-    """ This is the console """
+    """ This is the      console """
+    prompt = "(hbnb) "
 
     __file_path = None
     __objects = None
@@ -21,10 +22,26 @@ class HBNBCommand(cmd.Cmd):
         """ destroy method """
         pass
 
-    def all():
+    def do_all():
         """ all method """
         pass
 
-    def update():
+    def do_update():
         """ update method """
         pass
+
+    def do_EOF(self, *args):
+        """ EOF method """
+        return (True)
+
+    def do_quit(self, *args):
+        """ Quit command to exit the program \n"""
+        return (True)
+
+    def emptyline(self):
+        pass
+
+
+if __name__ == '__main__':
+    interpreter = HBNBCommand()
+    interpreter.cmdloop()

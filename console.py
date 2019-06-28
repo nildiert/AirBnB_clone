@@ -22,19 +22,19 @@ class HBNBCommand(cmd.Cmd):
         """ destroy method """
         pass
 
-    def all():
+    def do_all():
         """ all method """
         pass
 
-    def update():
+    def do_update():
         """ update method """
         pass
 
-    def do_EOF(self, args):
+    def do_EOF(self, *args):
         """ EOF method """
         return (True)
 
-    def do_quit(self, args):
+    def do_quit(self, *args):
         """ Quit command to exit the program \n"""
         return (True)
 

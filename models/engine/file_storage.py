@@ -1,25 +1,30 @@
 #!/usr/bin/python3
 """ FileStorage class """
-
+import json
 
 class FileStorage():
     """ This is the FileStorage class """
 
     __file_path = "file.json"
-    __objects = dict(self.__class__.__name__.id)
+    __objects = {}
 
     def all(self):
         """ all method """
-        pass
+#        print(__class__.__name__)
+        return self.__objects
 
     def new(self, obj):
         """ new method """
-        pass
+        print(obj)
+        self.__objects[str(obj.__class__.__name__ + "." + obj.id)] = obj.to_dict()
 
     def save(self):
         """ Save method """
-        pass
+        with open(self.__file_path, 'w', encoding='utf-8') as f:
+            json.dump(self.__objects, f)
 
     def to_dict(self):
         """ to_dictionary method """
-        pass
+        with open(self.__file_path, "r") as f:
+            data = json.load(f)
+        return data

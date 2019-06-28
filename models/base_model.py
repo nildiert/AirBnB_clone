@@ -26,3 +26,4 @@ class BaseModel():
 
     def to_dict(self):
         """ to_dict method """
+        return self.__dict__

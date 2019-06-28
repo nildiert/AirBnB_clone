@@ -18,7 +18,7 @@ class BaseModel():
         name_class = str("[" + self.__class__.__name__ + "]")
         base_id = str("(" + self.id + ")")
         base_dict = str(self.__dict__)
-        return (name_class + " " base_id + " " + base_dict)
+        return (name_class + " " + base_id + " " + base_dict)
 
     def save(self):
         """ save method """

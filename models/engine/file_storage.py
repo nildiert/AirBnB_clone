@@ -10,7 +10,6 @@ class FileStorage():
 
     def all(self):
         """ all method """
-        print(self.__objects, "all method")
         return self.__objects
 
     def new(self, obj):

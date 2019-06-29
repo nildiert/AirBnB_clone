@@ -10,7 +10,6 @@ class FileStorage():
 
     def all(self):
         """ all method """
-#        print(__class__.__name__)
         return self.__objects
 
     def new(self, obj):
@@ -24,10 +23,8 @@ class FileStorage():
 
     def reload(self):
         """ Reload method """
-        values = []
-        data = ""
         try:
             with open(self.__file_path, "r") as f:
-                self.__object = json.load(f)
+                self.__objects = json.load(f)
         except:
             pass

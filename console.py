@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 """ Import cmd """
 import cmd
+from models.base_model import BaseModel
+import sys
+import inspect
 
 
 class HBNBCommand(cmd.Cmd):
@@ -10,9 +13,21 @@ class HBNBCommand(cmd.Cmd):
     __file_path = None
     __objects = None
 
-    def create():
+    def do_create(self, args):
         """ create method """
-        pass
+        my_classes = [
+            "Review", "BaseModel", "City", "State", "User", "Amenity", "Place"
+        ]
+        if len(args) is 0:
+            print("** class name missing **")
+        else:
+            arguments = args.split()
+            if arguments[0] in my_classes:
+                print("Se va a crear la clase {}".format(arguments[0]))
+            else:
+                print("** class doesn't exist **'")
+
+#        super().__init__(args)
 
     def show():
         """ show method """

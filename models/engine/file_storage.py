@@ -15,7 +15,6 @@ class FileStorage():
 
     def new(self, obj):
         """ new method """
-        print(obj)
         self.__objects[str(obj.__class__.__name__ + "." + obj.id)] = obj.to_dict()
 
     def save(self):
@@ -23,8 +22,12 @@ class FileStorage():
         with open(self.__file_path, 'w', encoding='utf-8') as f:
             json.dump(self.__objects, f)
 
-    def to_dict(self):
-        """ to_dictionary method """
-        with open(self.__file_path, "r") as f:
-            data = json.load(f)
-        return data
+    def reload(self):
+        """ Reload method """
+        values = []
+        data = ""
+        try:
+            with open(self.__file_path, "r") as f:
+                self.__object = json.load(f)
+        except:
+            pass

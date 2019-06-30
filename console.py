@@ -38,9 +38,9 @@ class HBNBCommand(cmd.Cmd):
                 storage.reload()
                 element = arguments[0] + "." + arguments[1]
                 if element in list(storage.all().keys()):
-                    print(BaseModel(storage.all()[element]))
+                    print(BaseModel(**storage.all()[element]))
                 else:
-                    HBNBCommand.error_handler(2)
+                    HBNBCommand.error_handler(3)
             else:
                 HBNBCommand.error_handler(2)
 
@@ -79,7 +79,29 @@ class HBNBCommand(cmd.Cmd):
                 HBNBCommand.error_handler(2)
 
     def do_update(self, args):
-        pass
+        """ all method """
+        arguments = args.split()
+        if len(arguments) is 0:
+            HBNBCommand.error_handler(1)
+        elif len(arguments) is 1:
+            HBNBCommand.error_handler(4)
+        else:
+            if HBNBCommand.verifyclass(arguments[0]):
+                storage.reload()
+                element = arguments[0] + "." + arguments[1]
+                if element in list(storage.all().keys()):
+                    if len(arguments) is 2:
+                        HBNBCommand.error_handler(5)
+                    elif len(arguments) is 3:
+                        HBNBCommand.error_handler(6)
+                    else:
+                        storage.all()[element].update(
+                            {arguments[2]: arguments[3]})
+                        storage.save()
+                else:
+                    HBNBCommand.error_handler(3)
+            else:
+                HBNBCommand.error_handler(2)
 
     def do_EOF(self, *args):
         """ EOF method """
@@ -109,9 +131,12 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **'")
         elif num_error is 3:
             print("** no instance found **")
-        else:
+        elif num_error is 4:
             print("** instance id missing **")
-
+        elif num_error is 5:
+            print("** attribute name missing **")
+        else:
+            print("** value missing **")
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()

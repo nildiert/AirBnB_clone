@@ -38,7 +38,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.reload()
                 element = arguments[0] + "." + arguments[1]
                 if element in list(storage.all().keys()):
-                    print(BaseModel(**storage.all()[element]))
+                    print(BaseModel(storage.all()[element]))
                 else:
                     HBNBCommand.error_handler(2)
             else:

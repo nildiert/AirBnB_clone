@@ -2,6 +2,8 @@
 """ Import cmd """
 import cmd
 from models.base_model import BaseModel
+from models.city import City
+from models import storage
 import sys
 import inspect
 
@@ -10,43 +12,78 @@ class HBNBCommand(cmd.Cmd):
     """ This is the      console """
     prompt = "(hbnb) "
 
-    __file_path = None
-    __objects = None
-
     def do_create(self, args):
         """ create method """
-        my_classes = [
-            "Review", "BaseModel", "City", "State", "User", "Amenity", "Place"
-        ]
+
         if len(args) is 0:
-            print("** class name missing **")
+            HBNBCommand.error_handler(1)
         else:
             arguments = args.split()
-            if arguments[0] in my_classes:
-                print("Se va a crear la clase {}".format(arguments[0]))
+            if HBNBCommand.verifyclass(arguments[0]):
+                new_object = eval(arguments[0])(arguments[1:])
+                print(new_object.id)
+                new_object.save()
             else:
-                print("** class doesn't exist **'")
+                HBNBCommand.error_handler(2)
 
-#        super().__init__(args)
-
-    def show():
+    def do_show(self, args):
         """ show method """
-        pass
+        arguments = args.split()
+        if len(arguments) is 0:
+            HBNBCommand.error_handler(1)
+        elif len(arguments) is 1:
+            HBNBCommand.error_handler(4)
+        else:
+            if HBNBCommand.verifyclass(arguments[0]):
+                storage.reload()
+                element = arguments[0] + "." + arguments[1]
+                if element in list(storage.all().keys()):
+                    print(BaseModel(**storage.all()[element]))
+                else:
+                    HBNBCommand.error_handler(2)
+            else:
+                HBNBCommand.error_handler(2)
 
-    def destroy():
+    def do_destroy(self, args):
         """ destroy method """
-        pass
+        arguments = args.split()
+        if len(arguments) is 0:
+            HBNBCommand.error_handler(1)
+        elif len(arguments) is 1:
+            HBNBCommand.error_handler(4)
+        else:
 
-    def do_all():
+            if HBNBCommand.verifyclass(arguments[0]):
+                storage.reload()
+                element = arguments[0] + "." + arguments[1]
+                if element in list(storage.all().keys()):
+                    del storage.all()[element]
+                    storage.save()
+                else:
+                    HBNBCommand.error_handler(2)
+            else:
+                HBNBCommand.error_handler(2)
+
+    def do_all(self, args):
         """ all method """
-        pass
+        if len(args) is 0:
+            HBNBCommand.error_handler(1)
+        else:
+            arguments = args.split()
+            if HBNBCommand.verifyclass(arguments[0]):
+                storage.reload()
+                for key, values in storage.all().items():
+                    if arguments[0] == key.split(".")[0]:
+                        print(BaseModel(**storage.all()[key]))
+            else:
+                HBNBCommand.error_handler(2)
 
-    def do_update():
-        """ update method """
+    def do_update(self, args):
         pass
 
     def do_EOF(self, *args):
         """ EOF method """
+        print()
         return (True)
 
     def do_quit(self, *args):
@@ -55,6 +92,25 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
+
+    def verifyclass(name_class):
+        my_classes = [
+            "Review", "BaseModel", "City", "State", "User", "Amenity", "Place"
+        ]
+        if name_class in my_classes:
+            return True
+        else:
+            return False
+
+    def error_handler(num_error):
+        if num_error is 1:
+            print("** class name missing **")
+        elif num_error is 2:
+            print("** class doesn't exist **'")
+        elif num_error is 3:
+            print("** no instance found **")
+        else:
+            print("** instance id missing **")
 
 
 if __name__ == '__main__':

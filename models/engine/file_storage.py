@@ -20,11 +20,11 @@ class FileStorage():
 
     def save(self):
         """save method"""
-        tmp_dict = {}
-        for key, item in FileStorage.__objects.items():
-            tmp_dict.update({key: item.to_dict()})
-        with open(FileStorage.__file_path, "w") as f:
-            json.dump(tmp_dict, f)
+        obj_to_dict = {}
+        for key, value in FileStorage.__objects.items():
+            obj_to_dict[key] = value.to_dict()
+        with open(FileStorage.__file_path, mode='w', encoding="UTF8") as f:
+            json.dump(obj_to_dict, f)
 
     def reload(self):
         """ Reload method """

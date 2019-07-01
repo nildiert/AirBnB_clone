@@ -10,9 +10,11 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         """ Init method """
+        '''
         self.id = str(uuid4())
         self.created_at = datetime.datetime.now()
         self.updated_at = datetime.datetime.now()
+        '''
         if kwargs:
             for key, value in kwargs.items():
                 if key != "__class__":
@@ -21,11 +23,9 @@ class BaseModel():
                             value, '%Y-%m-%dT%H:%M:%S.%f')
                     setattr(self, key, value)
         else:
-            '''
             self.id = str(uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
-            '''
             models.storage.new(self)
 
     def __str__(self):
@@ -37,12 +37,13 @@ class BaseModel():
 
     def save(self):
         """ save method """
-        models.storage.save()
         self.updated_at = datetime.datetime.now()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
-        """ to_dict method """
-        tmpdict = self.__dict__
+        """ to_dict method WITH A COPY to AVOID BE ALTERED"""
+        tmpdict = self.__dict__.copy()
         tmpdict["__class__"] = self.__class__.__name__
         tmpdict["created_at"] = self.created_at.isoformat()
         tmpdict["updated_at"] = self.updated_at.isoformat()

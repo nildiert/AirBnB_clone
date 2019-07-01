@@ -38,7 +38,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.reload()
                 element = arguments[0] + "." + arguments[1]
                 if element in list(storage.all().keys()):
-                    print(BaseModel(**storage.all()[element]))
+                    print(storage.all()[element])
                 else:
                     HBNBCommand.error_handler(3)
             else:
@@ -72,9 +72,10 @@ class HBNBCommand(cmd.Cmd):
             arguments = args.split()
             if HBNBCommand.verifyclass(arguments[0]):
                 storage.reload()
-                for key, values in storage.all().items():
+                storage_dict = storage.all()
+                for key, values in storage_dict.items():
                     if arguments[0] == key.split(".")[0]:
-                        print(BaseModel(**storage.all()[key]))
+                        print(storage_dict[key])
             else:
                 HBNBCommand.error_handler(2)
 
@@ -95,9 +96,9 @@ class HBNBCommand(cmd.Cmd):
                     elif len(arguments) is 3:
                         HBNBCommand.error_handler(6)
                     else:
-                        storage.all()[element].update(
-                            {arguments[2]: arguments[3]})
-                        storage.save()
+                        provisional = storage.all()[element].to_dict()
+                        provisional.update({arguments[2]: arguments[3]})
+                        BaseModel(**provisional).save()
                 else:
                     HBNBCommand.error_handler(3)
             else:

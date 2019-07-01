@@ -2,7 +2,12 @@
 """ Import cmd """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
 from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models import storage
 import sys
 import inspect
@@ -38,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
                 storage.reload()
                 element = arguments[0] + "." + arguments[1]
                 if element in list(storage.all().keys()):
-                    print(BaseModel(**storage.all()[element]))
+                    print(storage.all()[element])
                 else:
                     HBNBCommand.error_handler(3)
             else:
@@ -69,12 +74,18 @@ class HBNBCommand(cmd.Cmd):
         if len(args) is 0:
             HBNBCommand.error_handler(1)
         else:
+            storage.reload()
             arguments = args.split()
+
             if HBNBCommand.verifyclass(arguments[0]):
-                storage.reload()
-                for key, values in storage.all().items():
+
+                storage_dict = storage.all()
+                for key, values in storage_dict.items():
+
                     if arguments[0] == key.split(".")[0]:
-                        print(BaseModel(**storage.all()[key]))
+                        print("______Dictionary ________")
+                        print(storage.all())
+                        print(storage_dict[key])
             else:
                 HBNBCommand.error_handler(2)
 
@@ -95,9 +106,9 @@ class HBNBCommand(cmd.Cmd):
                     elif len(arguments) is 3:
                         HBNBCommand.error_handler(6)
                     else:
-                        storage.all()[element].update(
-                            {arguments[2]: arguments[3]})
-                        storage.save()
+                        provisional = storage.all()[element].to_dict()
+                        provisional.update({arguments[2]: arguments[3]})
+                        eval(arguments[0])(**provisional).save()
                 else:
                     HBNBCommand.error_handler(3)
             else:

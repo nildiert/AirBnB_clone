@@ -2,6 +2,12 @@
 """ FileStorage class """
 import json
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage():
@@ -28,13 +34,12 @@ class FileStorage():
 
     def reload(self):
         """ Reload method """
-        dict2 = {}
         try:
             with open(FileStorage.__file_path, "r") as f:
                 tmp_dict = json.load(f)
-                for item in tmp_dict.values():
-                    cls_name = item["__class__"]
-                    del item["__class__"]
-                    self.new(eval(cls_name)(**item))
+            for item in tmp_dict.values():
+                cls_name = item["__class__"]
+                del item["__class__"]
+                self.new(eval(cls_name)(**item))
         except:
             pass

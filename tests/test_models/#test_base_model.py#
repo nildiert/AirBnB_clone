@@ -55,26 +55,15 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.inst.created_at, self.inst.updated_at)
 
     def test_type_datetime(self):
-        """ Datetime class verificationyo """
         self.assertEqual(datetime, type(self.inst.created_at))
         self.assertEqual(datetime, type(self.inst.updated_at))
 
     def test_to_dict(self):
-        """ Verify the dictionary convert """
         dict_test = self.inst.to_dict()
         self.assertEqual(dict, type(dict_test))
 
     def test_type_id(self):
-        """ Test the type of the id """
         self.assertEqual(str, type(self.inst.id))
-
-    def test_attr(self):
-        self.inst.name = "Nildiert"
-        self.inst.number = 26
-        self.inst.number2 = 2.3
-        self.assertEqual(str, type(self.inst.name))
-        self.assertEqual(int, type(self.inst.number))
-        self.assertEqual(float, type(self.inst.number2))
 
 if __name__ == "__main__":
     unittest.main()

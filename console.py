@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
         if num_error is 1:
             print("** class name missing **")
         elif num_error is 2:
-            print("** class doesn't exist **'")
+            print("** class doesn't exist **")
         elif num_error is 3:
             print("** no instance found **")
         elif num_error is 4:

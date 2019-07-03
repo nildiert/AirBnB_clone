@@ -8,7 +8,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
-from models import storage
+import models
 import sys
 import inspect
 
@@ -40,10 +40,10 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.error_handler(4)
         else:
             if HBNBCommand.verifyclass(arguments[0]):
-                storage.reload()
+                models.storage.reload()
                 element = arguments[0] + "." + arguments[1]
-                if element in list(storage.all().keys()):
-                    print(storage.all()[element])
+                if element in list(models.storage.all().keys()):
+                    print(models.storage.all()[element])
                 else:
                     HBNBCommand.error_handler(3)
             else:
@@ -59,11 +59,11 @@ class HBNBCommand(cmd.Cmd):
         else:
 
             if HBNBCommand.verifyclass(arguments[0]):
-                storage.reload()
+                models.storage.reload()
                 element = arguments[0] + "." + arguments[1]
                 if element in list(storage.all().keys()):
-                    del storage.all()[element]
-                    storage.save()
+                    del models.storage.all()[element]
+                    models.storage.save()
                 else:
                     HBNBCommand.error_handler(2)
             else:
@@ -74,18 +74,16 @@ class HBNBCommand(cmd.Cmd):
         if len(args) is 0:
             HBNBCommand.error_handler(1)
         else:
-            storage.reload()
+            tmp_list = []
+            models.storage.reload()
             arguments = args.split()
-
             if HBNBCommand.verifyclass(arguments[0]):
-
-                storage_dict = storage.all()
-                for key, values in storage_dict.items():
-
-                    if arguments[0] == key.split(".")[0]:
-                        print("______Dictionary ________")
-                        print(storage.all())
-                        print(storage_dict[key])
+                stor_dict = models.storage.all()
+                for obj_id in stor_dict.keys():
+                    if (arguments[0] in obj_id):
+                        obj = stor_dict[obj_id]
+                        tmp_list.append(str(obj))
+                print(tmp_list)
             else:
                 HBNBCommand.error_handler(2)
 
@@ -98,17 +96,21 @@ class HBNBCommand(cmd.Cmd):
             HBNBCommand.error_handler(4)
         else:
             if HBNBCommand.verifyclass(arguments[0]):
-                storage.reload()
+                models.storage.reload()
                 element = arguments[0] + "." + arguments[1]
-                if element in list(storage.all().keys()):
+                if element in list(models.storage.all().keys()):
                     if len(arguments) is 2:
                         HBNBCommand.error_handler(5)
                     elif len(arguments) is 3:
                         HBNBCommand.error_handler(6)
                     else:
-                        provisional = storage.all()[element].to_dict()
-                        provisional.update({arguments[2]: arguments[3]})
-                        eval(arguments[0])(**provisional).save()
+                        provisional = models.storage.all()[element].to_dict()
+                        value_in1 = ''.join(filter(str.isalnum, arguments[2]))
+                        value_in2 = ''.join(filter(str.isalnum, arguments[3]))
+                        provisional.update({value_in1: value_in2})
+                        obj_tmp = eval(arguments[0])(**provisional)
+                        models.storage.new(obj_tmp)
+                        models.storage.save()
                 else:
                     HBNBCommand.error_handler(3)
             else:

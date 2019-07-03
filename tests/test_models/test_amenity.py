@@ -1,18 +1,19 @@
 #!/usr/bin/python3
 from models.base_model import BaseModel
+from models.amenity import Amenity
 import os
 import unittest
 import pep8
 from datetime import datetime
 
 
-class TestBaseModel(unittest.TestCase):
-    """ Test BaseModel class """
+class TestAmenity(unittest.TestCase):
+    """ Test City class """
 
     @classmethod
     def setUpClass(cls):
         """ Setting instance of method """
-        cls.inst = BaseModel()
+        cls.inst = Amenity()
 
     @classmethod
     def teardown(cls):
@@ -26,27 +27,27 @@ class TestBaseModel(unittest.TestCase):
     def test_pep8(self):
         """ Pep8 test """
         pep_8 = pep8.StyleGuide(quiet=True)
-        answ = pep_8.check_files(['models/base_model.py'])
+        answ = pep_8.check_files(['models/amenity.py'])
         self.assertEqual(answ.total_errors, 0, "Fix Style")
 
     def test_instance(self):
         """ Verify instance """
-        self.assertTrue(isinstance(self.inst, BaseModel))
+        self.assertTrue(isinstance(self.inst,Amenity))
 
     def test_has_attribute(self):
         """ Test attributes """
-        self.assertTrue(hasattr(BaseModel, "save"))
-        self.assertTrue(hasattr(BaseModel, "to_dict"))
-        self.assertTrue(hasattr(BaseModel, "__str__"))
-        self.assertTrue(hasattr(BaseModel, "__init__"))
+        self.assertTrue(hasattr(Amenity, "save"))
+        self.assertTrue(hasattr(Amenity, "to_dict"))
+        self.assertTrue(hasattr(Amenity, "__str__"))
+        self.assertTrue(hasattr(Amenity, "__init__"))
 
     def test_docstring(self):
         """ Test docstring """
-        self.assertIsNotNone(BaseModel.__doc__)
+        self.assertIsNotNone(Amenity.__doc__)
 
     def test_dict_doc(self):
         """ test docstring of each method """
-        for doc in dir(BaseModel):
+        for doc in dir(Amenity):
             self.assertIsNotNone(doc.__doc__)
 
     def test_save(self):
@@ -55,26 +56,15 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(self.inst.created_at, self.inst.updated_at)
 
     def test_type_datetime(self):
-        """ Datetime class verificationyo """
         self.assertEqual(datetime, type(self.inst.created_at))
         self.assertEqual(datetime, type(self.inst.updated_at))
 
     def test_to_dict(self):
-        """ Verify the dictionary convert """
         dict_test = self.inst.to_dict()
         self.assertEqual(dict, type(dict_test))
 
     def test_type_id(self):
-        """ Test the type of the id """
         self.assertEqual(str, type(self.inst.id))
-
-    def test_attr(self):
-        self.inst.name = "Nildiert"
-        self.inst.number = 26
-        self.inst.number2 = 2.3
-        self.assertEqual(str, type(self.inst.name))
-        self.assertEqual(int, type(self.inst.number))
-        self.assertEqual(float, type(self.inst.number2))
 
 if __name__ == "__main__":
     unittest.main()

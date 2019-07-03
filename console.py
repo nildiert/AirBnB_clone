@@ -61,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
             if HBNBCommand.verifyclass(arguments[0]):
                 models.storage.reload()
                 element = arguments[0] + "." + arguments[1]
-                if element in list(storage.all().keys()):
+                if element in list(models.storage.all().keys()):
                     del models.storage.all()[element]
                     models.storage.save()
                 else:

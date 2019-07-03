@@ -105,8 +105,13 @@ class HBNBCommand(cmd.Cmd):
                         HBNBCommand.error_handler(6)
                     else:
                         provisional = models.storage.all()[element].to_dict()
-                        provisional.update({arguments[2]: arguments[3]})
-                        eval(arguments[0])(**provisional).save()
+                        value_in1 = ''.join(filter(str.isalnum, arguments[2]))
+                        value_in2 = ''.join(filter(str.isalnum, arguments[3]))
+                        provisional.update({value_in1: value_in2})
+                        obj_tmp = eval(arguments[0])(**provisional)
+                        models.storage.new(obj_tmp)
+                        models.storage.save()
+#                        eval(arguments[0])(**provisional).save()
                 else:
                     HBNBCommand.error_handler(3)
             else:

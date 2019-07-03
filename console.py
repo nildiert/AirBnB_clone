@@ -42,7 +42,7 @@ class HBNBCommand(cmd.Cmd):
             if HBNBCommand.verifyclass(arguments[0]):
                 models.storage.reload()
                 element = arguments[0] + "." + arguments[1]
-                if element in list(storage.all().keys()):
+                if element in list(models.storage.all().keys()):
                     print(models.storage.all()[element])
                 else:
                     HBNBCommand.error_handler(3)
@@ -111,7 +111,6 @@ class HBNBCommand(cmd.Cmd):
                         obj_tmp = eval(arguments[0])(**provisional)
                         models.storage.new(obj_tmp)
                         models.storage.save()
-#                        eval(arguments[0])(**provisional).save()
                 else:
                     HBNBCommand.error_handler(3)
             else:

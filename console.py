@@ -185,16 +185,18 @@ class HBNBCommand(cmd.Cmd):
                     new_cut = argu[1].split('"')
                     self.do_show(argu[0] + " " + new_cut[1])
             if "update" in argu[1]:
-                symbols = [' ', '.', ',', '"', '(', ')']
-                for sym in symbols:
-                    
+                my_arg = []
+                symbols = [',', '(', ')']
                 new_cut = argu[1].split('"')
-                print(new_cut[1])
-                print(new_cut[3])
-                
-                print(new_cut[4].split)
 
+                if len(new_cut) is 5:
+                    for item in list(new_cut[4]):
+                        if item not in symbols:
+                            my_arg.append(item)
 
+                    new_cut[4] = "".join(my_arg).strip()
+                    self.do_update("{} {} {} {}".format(
+                        argu[0], new_cut[1], new_cut[3], new_cut[4]))
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()

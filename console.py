@@ -184,6 +184,17 @@ class HBNBCommand(cmd.Cmd):
                 if "-" in argu[1]:
                     new_cut = argu[1].split('"')
                     self.do_show(argu[0] + " " + new_cut[1])
+            if "update" in argu[1]:
+                symbols = [' ', '.', ',', '"', '(', ')']
+                for sym in symbols:
+                    
+                new_cut = argu[1].split('"')
+                print(new_cut[1])
+                print(new_cut[3])
+                
+                print(new_cut[4].split)
+
+
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()

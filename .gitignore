@@ -1,0 +1,8 @@
+__pycache__
+.#]]]]]]
+.#auto
+.generate-authors.swp
+__init__.py
+file.json
+test_save_reload_base_model.py
+test_save_reload_user.py

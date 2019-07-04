@@ -39,6 +39,16 @@ class Test_FileStorage(unittest.TestCase):
     def test_new(self):
         dictTest = self.inst.all()
         basM = BaseModel()
+        self.test_id = basM.id
+        basM.name = "Nil"
+        basM.save()
+
+        storage.reload()
+        my_objs = storage.all()["BaseModel.{}".format(self.test_id)]
+        self.assertTrue(hasattr(my_objs, "name"))
+        self.assertTrue(my_objs.name == "Nil")
+        self.assertTrue(os.path.exists('file.json'))
+
         strForm = "{}.{}".format(type(basM).__name__, basM.id)
         self.assertTrue(strForm in dictTest.keys())
 
@@ -58,7 +68,7 @@ class Test_FileStorage(unittest.TestCase):
         with open("file.json", 'r') as read2:
             lines2 = read2.readlines()
 
-        self.assertEqual(lines ,lines2)
+        self.assertEqual(lines, lines2)
 
     def test_reload(self):
         self.assertIsNone(storage.reload())
@@ -66,7 +76,6 @@ class Test_FileStorage(unittest.TestCase):
             os.remove("file.json")
         except BaseException:
             pass
-
 
         with open("file.json", 'w') as write:
             write.write("{}")

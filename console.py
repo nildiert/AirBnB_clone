@@ -184,6 +184,14 @@ class HBNBCommand(cmd.Cmd):
                 if "-" in argu[1]:
                     new_cut = argu[1].split('"')
                     self.do_show(argu[0] + " " + new_cut[1])
+                else:
+                    self.do_show("")
+            if "destroy" in argu[1]:
+                if "-" in argu[1]:
+                    new_cut = argu[1].split('"')
+                    self.do_destroy(argu[0] + " " + new_cut[1])
+                else:
+                    self.do_destroy("")
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()

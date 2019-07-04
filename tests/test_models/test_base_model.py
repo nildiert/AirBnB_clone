@@ -31,7 +31,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_instance(self):
         """ Verify instance """
-        self.assertTrue(isinstance(self.inst, BaseModel))
+        self.assertIsInstance(self.inst, BaseModel)
 
     def test_has_attribute(self):
         """ Test attributes """
@@ -49,6 +49,11 @@ class TestBaseModel(unittest.TestCase):
         for doc in dir(BaseModel):
             self.assertIsNotNone(doc.__doc__)
 
+    def test_type_datetime(self):
+        """ Datetime class verificationyo """
+        self.assertEqual(datetime, type(self.inst.created_at))
+        self.assertEqual(datetime, type(self.inst.updated_at))
+
     def test_save(self):
         """ Test difference between created_at and updated_at """
         self.inst.save()
@@ -58,15 +63,17 @@ class TestBaseModel(unittest.TestCase):
         self.new = self.inst.updated_at
         self.assertIsNot(self.old, self.new)
 
-    def test_type_datetime(self):
-        """ Datetime class verificationyo """
-        self.assertEqual(datetime, type(self.inst.created_at))
-        self.assertEqual(datetime, type(self.inst.updated_at))
-
     def test_to_dict(self):
         """ Verify the dictionary convert """
         dict_test = self.inst.to_dict()
         self.assertEqual(dict, type(dict_test))
+        self.assertTrue('to_dict' in dir(self.inst))
+        self.assertIsInstance(dict_test["created_at"], str)
+        self.assertIsInstance(dict_test["updated_at"], str)
+
+    def test_create(self):
+        self.inst.save()
+        self.assertTrue(os.path.isfile("file.json"))
 
     def dict_test_att(self):
         """ Verify elements of dictionary """
@@ -75,10 +82,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(test_dict['updated_at'], str)
         self.assertIsInstance(test_dict['created_at'], str)
         self.assertIsInstance(test_dict['_id'], str)
-
-    def test_create(self):
-        self.inst.save()
-        self.assertTrue(os.path.isfile("file.json"))
 
     def test_type_id(self):
         """ Test the type of the id """

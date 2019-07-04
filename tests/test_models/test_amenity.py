@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 class TestAmenity(unittest.TestCase):
-    """ Test City class """
+    """ Test Amenity class """
 
     @classmethod
     def setUpClass(cls):

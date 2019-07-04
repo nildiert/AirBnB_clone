@@ -72,7 +72,11 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ all method """
         if len(args) is 0:
-            HBNBCommand.error_handler(1)
+            stor_dict = models.storage.all()
+            for obj_id in stor_dict.keys():
+                obj = stor_dict[obj_id]
+                tmp_list.append(str(obj))
+            print(tmp_list)
         else:
             tmp_list = []
             models.storage.reload()
@@ -105,13 +109,10 @@ class HBNBCommand(cmd.Cmd):
                         HBNBCommand.error_handler(6)
                     else:
                         provisional = models.storage.all()[element].to_dict()
-                        c_del = '"\'#$%&/()=?¡!'
-                        v1 = ''.join(c for c in arguments[2] if c not in c_del)
-                        v2 = ''.join(c for c in arguments[3] if c not in c_del)
-                        provisional.update({v1: v2})
+                        provisional.update({arguments[2]: arguments[3]})
                         obj_tmp = eval(arguments[0])(**provisional)
                         models.storage.new(obj_tmp)
-                        models.storage.save()
+                        models.storage.all()[element].save()
                 else:
                     HBNBCommand.error_handler(3)
             else:

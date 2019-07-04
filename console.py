@@ -131,9 +131,15 @@ class HBNBCommand(cmd.Cmd):
         return (True)
 
     def emptyline(self):
+        """
+        empty line
+        """
         pass
 
     def verifyclass(name_class):
+        """
+        verify class
+        """
         my_classes = [
             "Review", "BaseModel", "City", "State", "User", "Amenity", "Place"
         ]
@@ -143,6 +149,9 @@ class HBNBCommand(cmd.Cmd):
             return False
 
     def error_handler(num_error):
+        """
+        error handler
+        """
         if num_error is 1:
             print("** class name missing **")
         elif num_error is 2:
@@ -155,6 +164,34 @@ class HBNBCommand(cmd.Cmd):
             print("** attribute name missing **")
         else:
             print("** value missing **")
+
+    def default(self, args):
+        """
+        default
+        """
+        argu = args.split(".")
+        if len(argu) > 1:
+            if argu[1] == "all()":
+                self.do_all(argu[0])
+            if argu[1] == "count()":
+                sum = 0
+                tmp_dic = models.storage.all()
+                for key, value in tmp_dic.items():
+                    if argu[0] in key:
+                        sum += 1
+                print(sum)
+            if "show" in argu[1]:
+                if "-" in argu[1]:
+                    new_cut = argu[1].split('"')
+                    self.do_show(argu[0] + " " + new_cut[1])
+                else:
+                    self.do_show("")
+            if "destroy" in argu[1]:
+                if "-" in argu[1]:
+                    new_cut = argu[1].split('"')
+                    self.do_destroy(argu[0] + " " + new_cut[1])
+                else:
+                    self.do_destroy("")
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()

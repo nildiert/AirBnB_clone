@@ -64,6 +64,18 @@ class TestBaseModel(unittest.TestCase):
         dict_test = self.inst.to_dict()
         self.assertEqual(dict, type(dict_test))
 
+    def dict_test_att(self):
+        """ Verify elements of dictionary """
+        test_dict = self.inst.to_dict()
+        self.assertEqual(test_dict.__class_.__name__, 'BaseModel')
+        self.assertIsInstance(test_dict['updated_at'], str)
+        self.assertIsInstance(test_dict['created_at'], str)
+        self.assertIsInstance(test_dict['_id'], str)
+
+    def test_create(self):
+        self.inst.save()
+        self.assertTrue(os.path.isfile("file.json"))
+
     def test_type_id(self):
         """ Test the type of the id """
         self.assertEqual(str, type(self.inst.id))

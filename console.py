@@ -15,7 +15,7 @@ import shlex
 
 
 class HBNBCommand(cmd.Cmd):
-    """ This is the console"""
+    """This is the console"""
     prompt = "(hbnb) "
 
     def do_create(self, args):

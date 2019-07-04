@@ -26,6 +26,7 @@ class Test_FileStorage(unittest.TestCase):
             pass
 
     def test_all_method(self):
+        """ Test all method """
         test_dict = self.inst.all()
         self.assertIsInstance(test_dict, dict)
         self.assertIs(test_dict, self.inst._FileStorage__objects)
@@ -37,22 +38,14 @@ class Test_FileStorage(unittest.TestCase):
         self.assertEqual(answ.total_errors, 0, "Fix Style")
 
     def test_new(self):
+        """ Test new Method """
         dictTest = self.inst.all()
         basM = BaseModel()
-        self.test_id = basM.id
-        basM.name = "Nil"
-        basM.save()
-
-        storage.reload()
-        my_objs = storage.all()["BaseModel.{}".format(self.test_id)]
-        self.assertTrue(hasattr(my_objs, "name"))
-        self.assertTrue(my_objs.name == "Nil")
-        self.assertTrue(os.path.exists('file.json'))
-
         strForm = "{}.{}".format(type(basM).__name__, basM.id)
         self.assertTrue(strForm in dictTest.keys())
 
     def test_save(self):
+        """ Test save method """
         self.assertIsNotNone(storage.save)
         self.inst.save()
         with open("file.json", 'r') as read:
@@ -71,6 +64,7 @@ class Test_FileStorage(unittest.TestCase):
         self.assertEqual(lines, lines2)
 
     def test_reload(self):
+        """ Test reload method """
         self.assertIsNotNone(storage.reload)
         try:
             os.remove("file.json")
@@ -85,10 +79,15 @@ class Test_FileStorage(unittest.TestCase):
         self.assertIs(self.inst.reload(), None)
 
     def test_all(self):
+        """ Test all method """
         dictTest = self.inst.all()
         self.assertIsInstance(dictTest, dict)
         self.assertIs(dictTest, self.inst._FileStorage__objects)
 
+    def test_att(self):
+        """ Test Attributes """
+        self.assertTrue(hasattr(storage, "_FileStorage__file_path"))
+        self.assertTrue(type(self.inst._FileStorage__file_path) is str)
 
 if __name__ == "__main__":
     unittest.main()

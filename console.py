@@ -56,9 +56,11 @@ class HBNBCommand(cmd.Cmd):
         if len(arguments) is 0:
             HBNBCommand.error_handler(1)
         elif len(arguments) is 1:
-            HBNBCommand.error_handler(4)
+            if HBNBCommand.verifyclass(arguments[0]):
+                HBNBCommand.error_handler(4)
+            else:
+                HBNBCommand.error_handler(2)
         else:
-
             if HBNBCommand.verifyclass(arguments[0]):
                 models.storage.reload()
                 element = arguments[0] + "." + arguments[1]
@@ -66,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
                     del models.storage.all()[element]
                     models.storage.save()
                 else:
-                    HBNBCommand.error_handler(2)
+                    HBNBCommand.error_handler(3)
             else:
                 HBNBCommand.error_handler(2)
 
@@ -112,7 +114,8 @@ class HBNBCommand(cmd.Cmd):
                     elif len(arguments) is 3:
                         HBNBCommand.error_handler(6)
                     else:
-                        setattr(models.storage.all()[element], arguments[2], arguments[3])
+                        setattr(models.storage.all()[element],
+                                arguments[2], arguments[3])
                         models.storage.all()[element].save()
                 else:
                     HBNBCommand.error_handler(3)

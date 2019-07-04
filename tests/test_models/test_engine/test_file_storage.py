@@ -61,12 +61,12 @@ class Test_FileStorage(unittest.TestCase):
         self.assertEqual(lines ,lines2)
 
     def test_reload(self):
-
+        self.assertIsNone(storage.reload())
         try:
             os.remove("file.json")
         except BaseException:
             pass
-        self.assertIsNone(storage.reload())
+
 
         with open("file.json", 'w') as write:
             write.write("{}")

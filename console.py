@@ -181,17 +181,11 @@ class HBNBCommand(cmd.Cmd):
                         sum += 1
                 print(sum)
             if "show" in argu[1]:
-                if "-" in argu[1]:
-                    new_cut = argu[1].split('"')
-                    self.do_show(argu[0] + " " + new_cut[1])
-                else:
-                    self.do_show("")
+                new_cut = argu[1].split('"')
+                self.do_show(argu[0] + " " + new_cut[1])
             if "destroy" in argu[1]:
-                if "-" in argu[1]:
-                    new_cut = argu[1].split('"')
-                    self.do_destroy(argu[0] + " " + new_cut[1])
-                else:
-                    self.do_destroy("")
+                new_cut = argu[1].split('"')
+                self.do_destroy(argu[0] + " " + new_cut[1])
 
 if __name__ == '__main__':
     interpreter = HBNBCommand()

@@ -71,7 +71,7 @@ class Test_FileStorage(unittest.TestCase):
         self.assertEqual(lines, lines2)
 
     def test_reload(self):
-        self.assertIsNone(storage.reload())
+        self.assertIsNotNone(storage.reload)
         try:
             os.remove("file.json")
         except BaseException:

@@ -98,7 +98,10 @@ class HBNBCommand(cmd.Cmd):
         if len(arguments) is 0:
             HBNBCommand.error_handler(1)
         elif len(arguments) is 1:
-            HBNBCommand.error_handler(4)
+            if HBNBCommand.verifyclass(arguments[0]):
+                HBNBCommand.error_handler(4)
+            else:
+                HBNBCommand.error_handler(2)
         else:
             if HBNBCommand.verifyclass(arguments[0]):
                 models.storage.reload()

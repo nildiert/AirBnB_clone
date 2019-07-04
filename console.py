@@ -11,6 +11,7 @@ from models.review import Review
 import models
 import sys
 import inspect
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -71,6 +72,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ all method """
+        tmp_list = []
         if len(args) is 0:
             stor_dict = models.storage.all()
             for obj_id in stor_dict.keys():
@@ -78,7 +80,6 @@ class HBNBCommand(cmd.Cmd):
                 tmp_list.append(str(obj))
             print(tmp_list)
         else:
-            tmp_list = []
             models.storage.reload()
             arguments = args.split()
             if HBNBCommand.verifyclass(arguments[0]):
@@ -93,7 +94,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         """ all method """
-        arguments = args.split()
+        arguments = shlex.split(args)
         if len(arguments) is 0:
             HBNBCommand.error_handler(1)
         elif len(arguments) is 1:
@@ -108,10 +109,7 @@ class HBNBCommand(cmd.Cmd):
                     elif len(arguments) is 3:
                         HBNBCommand.error_handler(6)
                     else:
-                        provisional = models.storage.all()[element].to_dict()
-                        provisional.update({arguments[2]: arguments[3]})
-                        obj_tmp = eval(arguments[0])(**provisional)
-                        models.storage.new(obj_tmp)
+                        setattr(models.storage.all()[element], arguments[2], arguments[3])
                         models.storage.all()[element].save()
                 else:
                     HBNBCommand.error_handler(3)
@@ -120,7 +118,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, *args):
         """ EOF method """
-        print()
         return (True)
 
     def do_quit(self, *args):

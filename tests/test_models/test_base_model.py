@@ -53,6 +53,10 @@ class TestBaseModel(unittest.TestCase):
         """ Test difference between created_at and updated_at """
         self.inst.save()
         self.assertNotEqual(self.inst.created_at, self.inst.updated_at)
+        self.old = self.inst.updated_at
+        self.inst.save()
+        self.new = self.inst.updated_at
+        self.assertIsNot(self.old, self.new)
 
     def test_type_datetime(self):
         """ Datetime class verificationyo """
